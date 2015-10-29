@@ -2,17 +2,17 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>training</groupId>
-	<artifactId>dropwizard-example</artifactId>
+	<groupId>backend-poc</groupId>
+	<artifactId>backend-poc</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>dropwizard-example</name>
+	<name>backend-poc</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<dropwizard.version>0.8.1</dropwizard.version>
+		<dropwizard.version>0.8.4</dropwizard.version>
 	</properties>
 
 	<build>
