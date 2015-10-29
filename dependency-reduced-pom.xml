@@ -28,7 +28,7 @@
               <transformers>
                 <transformer />
                 <transformer>
-                  <mainClass>training.dropwizard.example.TrainingApplication</mainClass>
+                  <mainClass>coop.poc.TrainingApplication</mainClass>
                 </transformer>
               </transformers>
             </configuration>

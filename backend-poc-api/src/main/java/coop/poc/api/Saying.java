@@ -1,4 +1,4 @@
-package training.dropwizard.example.core;
+package coop.poc.api;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.Length;
 

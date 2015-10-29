@@ -5,7 +5,12 @@
 	<groupId>backend-poc</groupId>
 	<artifactId>backend-poc</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<modules>
+		<module>backend-poc-api</module>
+		<module>backend-poc-client</module>
+		<module>backend-poc-application</module>
+	</modules>
+	<packaging>pom</packaging>
 
 	<name>backend-poc</name>
 	<url>http://maven.apache.org</url>
@@ -54,7 +59,7 @@
 									implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
 								<transformer
 									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-									<mainClass>training.dropwizard.example.TrainingApplication</mainClass>
+									<mainClass>coop.poc.TrainingApplication</mainClass>
 								</transformer>
 							</transformers>
 						</configuration>
