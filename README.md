@@ -5,20 +5,19 @@ Organizing Your Project
 
 In general, we recommend you separate your projects into three Maven modules: 
 
-* ``project-api`` : should contain your representations
-* ``project-client`` : should use those classes and a HTTP client to implement a full-fledged client for your application
+* ``project-api`` : should contain your JSON representations and service interfaces
+* ``project-client`` : should contain client code used to get data from external rest service. Can be excluded, if you don't have any.
 * ``project-application`` : should provide the actual application implementation, including resources
 
 Modules are often broken down like this:
 
 * ``com.example.myapplication``:
 
-  * ``api``: :ref:`man-core-representations`.
-  * ``cli``: :ref:`man-core-commands`
-  * ``client``: :ref:`Client <man-client>` implementation for your application
+  * ``api``: JSON Representations
+  * ``client``: Client implementation for your application
   * ``core``: Domain implementation
-  * ``jdbi``: :ref:`Database <man-jdbi>` access classes
-  * ``health``: :ref:`man-core-healthchecks`
-  * ``resources``: :ref:`man-core-resources`
-  * ``MyApplication``: The :ref:`application <man-core-application>` class
-  * ``MyApplicationConfiguration``: :ref:`configuration <man-core-configuration>` class
+  * ``jdbi``: DB Access
+  * ``health``: Healthchecks
+  * ``resources``: Resources
+  * ``MyApplication``: The application class
+  * ``MyApplicationConfiguration``:The configuration class
