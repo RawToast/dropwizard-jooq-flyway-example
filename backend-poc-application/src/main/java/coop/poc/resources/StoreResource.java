@@ -1,5 +1,6 @@
 package coop.poc.resources;
 
+import com.google.common.base.Optional;
 import coop.poc.api.forms.StoreForm;
 import coop.poc.api.stores.Store;
 import coop.poc.services.StoreService;
@@ -32,20 +33,15 @@ public class StoreResource {
     }
 
     @GET
-    @Path("/all")
-    public Response findAll(){
-
-        List<Store> stores = service.listStores();
-
-        return Response.ok(stores).build();
-    }
-
-    @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response searchByName(@QueryParam("name") @NotNull String name){
+    public Response searchByName(@QueryParam("name") Optional<String> name){
 
-        List<Store> stores = service.findStore(name);
-
+        List<Store> stores;
+        if (name.isPresent()){
+            stores = service.findStore(name.get());
+        } else {
+            stores = service.listStores();
+        }
         return Response.ok(stores).build();
     }
 
@@ -59,7 +55,6 @@ public class StoreResource {
                                        .withStoreId(10).createStore();
     }
 
-
     @GET
     @Path("/{id}")
     public Store getStore(@PathParam("id") IntParam storeId) {
@@ -67,10 +62,17 @@ public class StoreResource {
     }
 
 
-    @POST
-    @Path("/{id}/delete")
+    @DELETE
+    @Path("/{id}")
     public Response deleteStore(@PathParam("id") IntParam storeId){
         service.deleteStore(storeId.get().intValue());
         return Response.ok().build();
+    }
+
+    @PUT
+    @Path("/{id}")
+    public Response updateStore(@PathParam("id") IntParam storeId, @Valid StoreForm storeForm){
+        Store store = service.update(storeId.get().intValue(), storeForm);
+        return Response.ok(store).build();
     }
 }

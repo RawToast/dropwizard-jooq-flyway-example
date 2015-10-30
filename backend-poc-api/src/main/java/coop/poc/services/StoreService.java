@@ -21,4 +21,6 @@ public interface StoreService {
 
     List<Store> listStores();
 
+    Store update(int id, StoreForm store);
+
 }

@@ -2,7 +2,6 @@ package coop.poc.services;
 
 import coop.poc.api.forms.StoreForm;
 import coop.poc.api.stores.Store;
-import coop.poc.tables.records.MembersRecord;
 import coop.poc.tables.records.StoresRecord;
 import org.jooq.DSLContext;
 import org.jooq.Result;
@@ -13,7 +12,6 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static coop.poc.Tables.MEMBERS;
 import static coop.poc.Tables.STORES;
 import static coop.poc.api.stores.Store.StoreBuilder;
 import static coop.poc.util.SingletonCollector.singletonCollector;
@@ -67,9 +65,9 @@ public class JooqStoreService implements StoreService {
         Result<StoresRecord> records = storeRecords.fetch();
 
         return records
-                           .stream()
-                           .map(CONVERT_STORES)
-                           .collect(Collectors.toList());
+                .stream()
+                .map(CONVERT_STORES)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -91,5 +89,23 @@ public class JooqStoreService implements StoreService {
                                           .collect(Collectors.toList());
 
         return stores;
+    }
+
+    @Override
+    public Store update(int id, StoreForm storeForm) {
+
+
+        UpdateConditionStep<StoresRecord> where = jooq.update(STORES)
+                                                      .set(STORES.NAME, storeForm.getName())
+                                                      .set(STORES.POSTCODE, storeForm.getPostcode())
+                                                      .where(STORES.STORE_ID.eq(id));
+
+        System.out.print(where.getSQL());
+        where.execute();
+
+        return new Store.StoreBuilder().withStoreId(id)
+                                       .withName(storeForm.getName())
+                                       .withPostcode(storeForm.getPostcode())
+                                       .createStore();
     }
 }
