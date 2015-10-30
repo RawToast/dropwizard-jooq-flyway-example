@@ -18,6 +18,8 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<dropwizard.version>0.8.4</dropwizard.version>
+        <postgres.jdbc.version>9.1-901-1.jdbc4</postgres.jdbc.version>
+        <autovalue.version>1.0-rc1</autovalue.version>
 	</properties>
 
 	<build>
@@ -30,6 +32,8 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
+
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
@@ -81,7 +85,7 @@
 		</plugins>
 	</build>
 
-	<dependencies>
+	<dependencies> <!-- TIDY THESE UP -->
 		<dependency>
 			<groupId>io.dropwizard</groupId>
 			<artifactId>dropwizard-core</artifactId>
@@ -104,5 +108,25 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
+        <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>jooq</artifactId>
+            <version>3.7.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>jooq-meta</artifactId>
+            <version>3.7.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>jooq-codegen</artifactId>
+            <version>3.7.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.bendb.dropwizard</groupId>
+            <artifactId>dropwizard-jooq</artifactId>
+            <version>0.8.1-0</version>
+        </dependency>
 	</dependencies>
 </project>
