@@ -9,3 +9,22 @@ server:
 template: Hello, %s!
 defaultName: Stranger
 sayingCounter: 0
+
+driverClass: org.postgresql.Driver
+  user: pocuser
+  password: pocpassword
+  url: jdbc:postgresql:5432//localhost/pocdb
+
+jooq:
+  dialect: POSTGRES
+  logExecutedSql: yes
+  renderSchema: yes
+  renderNameStyle: QUOTED
+  renderKeywordStyle: LOWER
+  renderFormatted: no
+  paramType: INDEXED
+  statementType: PREPARED_STATEMENT
+  executeLogging: no
+  executeWithOptimisticLocking: no
+  attachRecords: yes
+  updatablePrimaryKeys: no
