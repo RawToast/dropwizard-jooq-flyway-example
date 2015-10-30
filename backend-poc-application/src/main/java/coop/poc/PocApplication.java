@@ -2,20 +2,19 @@ package coop.poc;
 
 import com.bendb.dropwizard.jooq.JooqBundle;
 import com.bendb.dropwizard.jooq.JooqFactory;
+import coop.poc.health.TemplateHealthCheck;
+import coop.poc.resources.MemberResource;
 import coop.poc.resources.StoreResource;
-import coop.poc.services.IncrementingSayingService;
+import coop.poc.services.JooqMemberService;
 import coop.poc.services.JooqStoreService;
-import coop.poc.services.SayingService;
+import coop.poc.services.MemberService;
 import coop.poc.services.StoreService;
 import io.dropwizard.Application;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import coop.poc.health.TemplateHealthCheck;
-import coop.poc.resources.SayingResource;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
-
 
 public class PocApplication extends Application<PocConfiguration> {
     public static void main(String[] args) throws Exception {
@@ -49,18 +48,17 @@ public class PocApplication extends Application<PocConfiguration> {
     }
 
     private void registerResources(PocConfiguration configuration, Environment environment) {
-        final SayingService sayingService = new IncrementingSayingService(configuration);
-        final SayingResource resource = new SayingResource(sayingService);
 
         DSLContext using = DSL.using(configuration.getDataSourceFactory().getUrl(), configuration.getDataSourceFactory().getUser(),
                                      configuration.getDataSourceFactory().getPassword());
+
         final StoreService storeService = new JooqStoreService(using);
-
-
-
         final StoreResource storeResource = new StoreResource(storeService);
 
-        environment.jersey().register(resource);
+        final MemberService memberService = new JooqMemberService(using);
+        final MemberResource memberResource = new MemberResource(memberService);
+
+        environment.jersey().register(memberResource);
         environment.jersey().register(storeResource);
     }
 

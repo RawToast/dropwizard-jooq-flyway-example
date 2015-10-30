@@ -7,7 +7,6 @@ import coop.poc.services.StoreService;
 import io.dropwizard.jersey.params.IntParam;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
