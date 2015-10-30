@@ -83,7 +83,7 @@ public class Member {
         return favouriteStores;
     }
 
-    public class MemberBuilder{
+    public static class MemberBuilder{
         private int memberId;
         private String firstName;
         private String lastName;
@@ -113,7 +113,7 @@ public class Member {
         }
 
         public MemberBuilder withRewardPoints(int rewardPoints) {
-            this.memberId = memberId;
+            this.rewardPoints = rewardPoints;
             return this;
         }
 

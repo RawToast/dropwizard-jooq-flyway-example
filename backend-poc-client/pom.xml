@@ -63,8 +63,8 @@
                             </forcedTypes>
                         </database>
                         <target>
-                            <packageName>coop.poc.jooq</packageName>
-                            <directory>target</directory>
+                            <packageName>coop.poc</packageName>
+                            <directory>src/generated-sources/jooq</directory>
                         </target>
                     </generator>
                 </configuration>

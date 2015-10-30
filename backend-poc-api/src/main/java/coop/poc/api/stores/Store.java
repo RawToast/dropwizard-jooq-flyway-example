@@ -18,7 +18,7 @@ public class Store {
 
     @JsonProperty
     @NotNull
-    private String storeId;
+    private int storeId;
 
     @JsonProperty
     private String name;
@@ -37,12 +37,12 @@ public class Store {
         return name;
     }
 
-    public String getStoreId() {
+    public int getStoreId() {
         return storeId;
     }
 
     @JsonProperty
-    private void setStoreId(String storeId) {
+    private void setStoreId(int storeId) {
         this.storeId = storeId;
     }
 
@@ -56,12 +56,12 @@ public class Store {
         this.postcode = postcode;
     }
 
-    public class StoreBuilder {
-        private String storeId;
+    public static class StoreBuilder {
+        private int storeId;
         private String name;
         private String postcode;
 
-        public StoreBuilder withStoreId(String storeId) {
+        public StoreBuilder withStoreId(int storeId) {
             this.storeId = storeId;
             return this;
         }

@@ -1,6 +1,8 @@
 package coop.poc.services;
 
+import coop.poc.api.forms.StoreForm;
 import coop.poc.api.stores.Store;
+import org.jooq.DSLContext;
 
 import java.util.List;
 
@@ -9,13 +11,13 @@ import java.util.List;
  */
 public interface StoreService {
 
-    void persistStore(Store store);
+    void persistStore(StoreForm store);
 
-    void fetchStore(String id);
+    Store fetchStore(int id);
 
     List<Store> findStore(String storeName);
 
-    void deleteStore(String id);
+    void deleteStore(int id);
 
     List<Store> listStores();
 

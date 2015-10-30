@@ -128,5 +128,10 @@
             <artifactId>dropwizard-jooq</artifactId>
             <version>0.8.1-0</version>
         </dependency>
+		<dependency>
+			<groupId>postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>${postgres.jdbc.version}</version>
+		</dependency>
 	</dependencies>
 </project>

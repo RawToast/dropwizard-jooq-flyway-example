@@ -10,10 +10,11 @@ template: Hello, %s!
 defaultName: Stranger
 sayingCounter: 0
 
-driverClass: org.postgresql.Driver
+database:
+  driverClass: org.postgresql.Driver
   user: pocuser
   password: pocpassword
-  url: jdbc:postgresql:5432//localhost/pocdb
+  url: jdbc:postgresql://localhost:5432/pocdb
 
 jooq:
   dialect: POSTGRES

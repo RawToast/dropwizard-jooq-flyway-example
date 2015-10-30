@@ -49,6 +49,11 @@
             <artifactId>backend-poc-api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>backend-poc</groupId>
+            <artifactId>backend-poc-client</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 </project>
 
