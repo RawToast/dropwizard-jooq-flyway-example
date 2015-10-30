@@ -1,6 +1,5 @@
 package coop.poc.api.stores;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.Length;
 
@@ -12,16 +11,9 @@ import javax.validation.constraints.NotNull;
 public class Store {
 
     public Store (StoreBuilder builder){
-        this.storeId = builder.storeId;
-        this.name = builder.name;
-        this.postcode = builder.postcode;
-    }
-
-    @JsonCreator
-    public Store (String storeId, String name, String postcode){
-        this.storeId = storeId;
-        this.name = name;
-        this.postcode = postcode;
+        this.setStoreId(builder.storeId);
+        this.setName(builder.name);
+        this.setPostcode(builder.postcode);
     }
 
     @JsonProperty
@@ -47,6 +39,21 @@ public class Store {
 
     public String getStoreId() {
         return storeId;
+    }
+
+    @JsonProperty
+    private void setStoreId(String storeId) {
+        this.storeId = storeId;
+    }
+
+    @JsonProperty
+    private void setName(String name) {
+        this.name = name;
+    }
+
+    @JsonProperty
+    private void setPostcode(String postcode) {
+        this.postcode = postcode;
     }
 
     public class StoreBuilder {
