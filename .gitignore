@@ -14,4 +14,7 @@ hs_err_pid*
 # Intellij
 *.iml
 .idea
+
+# generated classes
 target/
+*/generated-sources/*
