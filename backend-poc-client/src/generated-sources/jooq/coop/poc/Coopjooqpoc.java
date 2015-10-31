@@ -11,11 +11,7 @@ package coop.poc;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Coopjooqpoc extends org.jooq.impl.SchemaImpl {
 
-<<<<<<< Updated upstream
-	private static final long serialVersionUID = 1369933114;
-=======
 	private static final long serialVersionUID = 1890492713;
->>>>>>> Stashed changes
 
 	/**
 	 * The singleton instance of <code>coopjooqpoc</code>
@@ -30,8 +26,6 @@ public class Coopjooqpoc extends org.jooq.impl.SchemaImpl {
 	}
 
 	@Override
-<<<<<<< Updated upstream
-=======
 	public final java.util.List<org.jooq.Sequence<?>> getSequences() {
 		java.util.List result = new java.util.ArrayList();
 		result.addAll(getSequences0());
@@ -44,7 +38,6 @@ public class Coopjooqpoc extends org.jooq.impl.SchemaImpl {
 	}
 
 	@Override
->>>>>>> Stashed changes
 	public final java.util.List<org.jooq.Table<?>> getTables() {
 		java.util.List result = new java.util.ArrayList();
 		result.addAll(getTables0());

@@ -1,5 +1,6 @@
 package coop.poc.resources;
 
+import com.codahale.metrics.annotation.Timed;
 import coop.poc.api.forms.MemberForm;
 import coop.poc.api.stores.Member;
 import coop.poc.services.MemberService;
@@ -31,18 +32,21 @@ public class MemberResource {
         this.memberService = memberService;
     }
 
+    @Timed
     @POST
     public Response createMember(@Valid final MemberForm memberForm){
         Member member = memberService.createMember(memberForm);
         return Response.ok(member).build();
     }
 
+    @Timed
     @GET
     public Response getMembers(){
         List<Member> members = memberService.listMembers();
         return Response.ok(members).build();
     }
 
+    @Timed
     @GET
     @Path("/{id}")
     public Response getMember(@PathParam("id")IntParam memberId){
@@ -50,10 +54,11 @@ public class MemberResource {
         return Response.ok(members).build();
     }
 
+    @Timed
     @PUT
     @Path("/{id}")
-    public Response updateMember(final int memberId, @Valid final MemberForm memberForm){
-        Member members = memberService.updateMember(memberId, memberForm);
+    public Response updateMember(@PathParam("id") IntParam memberId, @Valid final MemberForm memberForm){
+        Member members = memberService.updateMember(memberId.get(), memberForm);
         return Response.ok(members).build();
     }
 }

@@ -1,5 +1,6 @@
 package coop.poc.resources;
 
+import com.codahale.metrics.annotation.Timed;
 import com.google.common.base.Optional;
 import coop.poc.api.forms.StoreForm;
 import coop.poc.api.stores.Store;
@@ -22,6 +23,8 @@ import java.util.List;
  DELETE 	/photos/:id 	photos#destroy 	delete a specific photo
  */
 @Path("/stores")
+@Timed
+@Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class StoreResource {
 
@@ -31,8 +34,8 @@ public class StoreResource {
         this.service = storeService;
     }
 
+
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
     public Response searchByName(@QueryParam("name") Optional<String> name){
 
         List<Store> stores;

@@ -11,11 +11,7 @@ package coop.poc.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Members extends org.jooq.impl.TableImpl<coop.poc.tables.records.MembersRecord> {
 
-<<<<<<< Updated upstream
-	private static final long serialVersionUID = -1881465667;
-=======
 	private static final long serialVersionUID = -1463550887;
->>>>>>> Stashed changes
 
 	/**
 	 * The singleton instance of <code>coopjooqpoc.members</code>
@@ -102,17 +98,6 @@ public class Members extends org.jooq.impl.TableImpl<coop.poc.tables.records.Mem
 	 * {@inheritDoc}
 	 */
 	@Override
-<<<<<<< Updated upstream
-	public java.util.List<org.jooq.ForeignKey<coop.poc.tables.records.MembersRecord, ?>> getReferences() {
-		return java.util.Arrays.<org.jooq.ForeignKey<coop.poc.tables.records.MembersRecord, ?>>asList(coop.poc.Keys.MEMBERS__MEMBERS_FAVOURITE_STORE_FKEY);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-=======
->>>>>>> Stashed changes
 	public coop.poc.tables.Members as(java.lang.String alias) {
 		return new coop.poc.tables.Members(alias, this);
 	}

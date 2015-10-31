@@ -2,8 +2,9 @@ package coop.poc.services;
 
 import coop.poc.api.forms.MemberForm;
 import coop.poc.api.stores.Member;
+import coop.poc.api.stores.Store;
 import coop.poc.tables.records.MembersRecord;
-import coop.poc.util.SingletonCollector;
+import coop.poc.tables.records.StoresRecord;
 import org.jooq.DSLContext;
 
 import java.util.List;
@@ -11,6 +12,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static coop.poc.tables.Members.MEMBERS;
+import static coop.poc.tables.Stores.STORES;
+import static coop.poc.util.SingletonCollector.singletonCollector;
 
 public class JooqMemberService implements MemberService {
 
@@ -24,7 +27,7 @@ public class JooqMemberService implements MemberService {
             membersRecord -> new Member.MemberBuilder().withFirstName(membersRecord.getFirstName())
                                                        .withLastName(membersRecord.getFirstName())
                                                        .withPostcode(membersRecord.getPostcode())
-                                                       .withFavouriteStore(getMember(membersRecord.getMemberId()).getFavouriteStore())
+                                                       .withFavouriteStore(getMembersFavouriteStore(membersRecord.getMemberId()))
                                                        .build();
 
     private Function<MemberForm, MembersRecord> CREATE_MEMBER =
@@ -33,6 +36,10 @@ public class JooqMemberService implements MemberService {
                                              .value4(memberForm.getPostcode())
                                              .value6(memberForm.getFavouriteStore());
 
+    private Function<StoresRecord, Store> CONVERT_STORE = storesRecord -> new Store.StoreBuilder().withName(storesRecord.getName())
+                                                                                                  .withStoreId(storesRecord.getStoreId())
+                                                                                                  .withPostcode(storesRecord.getPostcode())
+                                                                                                  .createStore();
 
     @Override
     public Member createMember(MemberForm memberForm) {
@@ -65,6 +72,21 @@ public class JooqMemberService implements MemberService {
                           .fetch()
                           .stream()
                           .map(CONVERT_MEMBER)
-                          .collect(SingletonCollector.singletonCollector());
+                          .collect(singletonCollector());
+    }
+
+    private Store getMembersFavouriteStore(int memberId){
+        MembersRecord membersRecord = jooqContext.selectFrom(MEMBERS)
+                                                 .where(MEMBERS.MEMBER_ID.eq(memberId))
+                                                 .fetch()
+                                                 .stream()
+                                                 .collect(singletonCollector());
+
+        return jooqContext.selectFrom(STORES)
+                          .where(STORES.STORE_ID.eq(membersRecord.getFavouriteStore()))
+                          .fetch()
+                          .stream()
+                          .map(CONVERT_STORE)
+                          .collect(singletonCollector());
     }
 }

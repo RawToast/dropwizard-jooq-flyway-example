@@ -31,10 +31,6 @@ public class Keys {
 	// FOREIGN KEY definitions
 	// -------------------------------------------------------------------------
 
-<<<<<<< Updated upstream
-	public static final org.jooq.ForeignKey<coop.poc.tables.records.MembersRecord, coop.poc.tables.records.StoresRecord> MEMBERS__MEMBERS_FAVOURITE_STORE_FKEY = ForeignKeys0.MEMBERS__MEMBERS_FAVOURITE_STORE_FKEY;
-=======
->>>>>>> Stashed changes
 
 	// -------------------------------------------------------------------------
 	// [#1459] distribute members to avoid static initialisers > 64kb
@@ -48,11 +44,4 @@ public class Keys {
 		public static final org.jooq.UniqueKey<coop.poc.tables.records.MembersRecord> MEMBERS_PKEY = createUniqueKey(coop.poc.tables.Members.MEMBERS, coop.poc.tables.Members.MEMBERS.MEMBER_ID);
 		public static final org.jooq.UniqueKey<coop.poc.tables.records.StoresRecord> STORES_PKEY = createUniqueKey(coop.poc.tables.Stores.STORES, coop.poc.tables.Stores.STORES.STORE_ID);
 	}
-<<<<<<< Updated upstream
-
-	private static class ForeignKeys0 extends org.jooq.impl.AbstractKeys {
-		public static final org.jooq.ForeignKey<coop.poc.tables.records.MembersRecord, coop.poc.tables.records.StoresRecord> MEMBERS__MEMBERS_FAVOURITE_STORE_FKEY = createForeignKey(coop.poc.Keys.STORES_PKEY, coop.poc.tables.Members.MEMBERS, coop.poc.tables.Members.MEMBERS.FAVOURITE_STORE);
-	}
-=======
->>>>>>> Stashed changes
 }
