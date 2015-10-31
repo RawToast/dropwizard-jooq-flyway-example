@@ -1,6 +1,7 @@
 package coop.poc.services;
 
 import coop.poc.api.forms.StoreForm;
+import coop.poc.api.stores.Member;
 import coop.poc.api.stores.Store;
 import org.jooq.DSLContext;
 
@@ -23,4 +24,5 @@ public interface StoreService {
 
     Store update(int id, StoreForm store);
 
+    List<Member> getLocalMembers(int id);
 }

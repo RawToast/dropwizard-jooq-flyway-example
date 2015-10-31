@@ -1,6 +1,7 @@
 package coop.poc.services;
 
 import coop.poc.api.forms.StoreForm;
+import coop.poc.api.stores.Member;
 import coop.poc.api.stores.Store;
 import coop.poc.tables.records.StoresRecord;
 import org.jooq.DSLContext;
@@ -107,5 +108,10 @@ public class JooqStoreService implements StoreService {
                                        .withName(storeForm.getName())
                                        .withPostcode(storeForm.getPostcode())
                                        .createStore();
+    }
+
+    @Override
+    public List<Member> getLocalMembers(int id) {
+        return null;
     }
 }

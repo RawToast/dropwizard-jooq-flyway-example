@@ -1,6 +1,7 @@
 package coop.poc.api.stores;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
@@ -23,65 +24,101 @@ public class Member {
         lastName = builder.lastName;
         postcode = builder.postcode;
         rewardPoints = builder.rewardPoints;
-        favouriteStores = builder.favouriteStores;
+        favouriteStore = builder.favouriteStore;
     }
 
     @JsonCreator
     private Member(int memberId, String firstName, String lastName,
-                   String postcode, int rewardPoints, List<Store> favouriteStores){
+                   String postcode, int rewardPoints, Store favouriteStore){
         this.memberId = memberId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.postcode = postcode;
         this.rewardPoints = rewardPoints;
-        this.favouriteStores = favouriteStores;
+        this.favouriteStore = favouriteStore;
     }
 
 
     @NotNull
+    @JsonProperty
     private int memberId;
 
     @NotNull
     @Length(min=1, max=40)
+    @JsonProperty
     private String firstName;
 
     @NotNull
     @Length(min=1, max=40)
+    @JsonProperty
     private String lastName;
 
     @NotNull
     @Length
+    @JsonProperty
     private String postcode;
 
     @NotNull
+    @JsonProperty
     private int rewardPoints;
 
-    @Length
-    private List<Store> favouriteStores;
+    @JsonProperty
+    private Store favouriteStore;
 
     public int getMemberId() {
         return memberId;
+    }
+
+    @JsonProperty
+    private void setMemberId(int memberId) {
+        this.memberId = memberId;
     }
 
     public String getFirstName() {
         return firstName;
     }
 
+    @JsonProperty
+    private void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
     public String getLastName() {
         return lastName;
+    }
+
+    @JsonProperty
+    private void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getPostcode() {
         return postcode;
     }
 
+    @JsonProperty
+    private void setPostcode(String postcode) {
+        this.postcode = postcode;
+    }
+
     public int getRewardPoints() {
         return rewardPoints;
     }
 
-    public List<Store> getFavouriteStores() {
-        return favouriteStores;
+    @JsonProperty
+    private void setRewardPoints(int rewardPoints) {
+        this.rewardPoints = rewardPoints;
     }
+
+    public Store getFavouriteStore() {
+        return favouriteStore;
+    }
+
+    @JsonProperty
+    private void setFavouriteStore(Store favouriteStore) {
+        this.favouriteStore = favouriteStore;
+    }
+
 
     public static class MemberBuilder{
         private int memberId;
@@ -89,7 +126,7 @@ public class Member {
         private String lastName;
         private String postcode;
         private int rewardPoints;
-        private List<Store> favouriteStores;
+        private Store favouriteStore;
 
 
         public MemberBuilder withMemberId(int memberId) {
@@ -117,26 +154,13 @@ public class Member {
             return this;
         }
 
-        public MemberBuilder withFavouriteStores(List<Store> favouriteStores) {
-            this.favouriteStores = favouriteStores;
+        public MemberBuilder withFavouriteStore(Store favouriteStore) {
+            this.favouriteStore = favouriteStore;
             return this;
         }
 
-        public MemberBuilder addFavouriteStore(Store favouriteStore) {
-            if (this.favouriteStores == null){
-                this.favouriteStores = new ArrayList<>();
-            }
-            this.favouriteStores.add(favouriteStore);
-            return this;
+        public Member build(){
+            return new Member(this);
         }
-
-        public MemberBuilder addFavouriteStores(List<Store> favouriteStores) {
-            if (this.favouriteStores == null){
-                this.favouriteStores = new ArrayList<>();
-            }
-            this.favouriteStores.addAll(favouriteStores);
-            return this;
-        }
-
     }
 }

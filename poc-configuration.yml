@@ -5,6 +5,14 @@ server:
   adminConnectors:
     - type: http
       port: 18081
+# Logging settings.
+logging:
+  # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
+  level: INFO
+  # Logger-specific levels.
+  loggers:
+    # Overrides the level of com.example.dw.Thing and sets it to DEBUG.
+    "com.example.dw.Thing": DEBUG
 
 template: Hello, %s!
 defaultName: Stranger
@@ -29,3 +37,4 @@ jooq:
   executeWithOptimisticLocking: no
   attachRecords: yes
   updatablePrimaryKeys: no
+

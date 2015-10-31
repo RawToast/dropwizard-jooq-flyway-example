@@ -58,7 +58,5 @@ public class StoreForm {
             this.postcode = postcode;
             return this;
         }
-
-
     }
 }
