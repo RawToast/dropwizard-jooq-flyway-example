@@ -5,6 +5,7 @@ import coop.poc.api.forms.MemberForm;
 import coop.poc.api.stores.Member;
 import coop.poc.services.MemberService;
 import io.dropwizard.jersey.params.IntParam;
+import org.slf4j.Logger;
 
 import javax.validation.Valid;
 import javax.ws.rs.*;
@@ -12,6 +13,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import java.util.List;
+
+import org.slf4j.LoggerFactory;
 
 /**
  * GET 	/photos 	photos#index 	display a list of all photos
@@ -27,6 +30,7 @@ import java.util.List;
 public class MemberResource {
 
     private final MemberService memberService;
+    private static final Logger LOG = LoggerFactory.getLogger(MemberResource.class);
 
     public MemberResource(final MemberService memberService) {
         this.memberService = memberService;
@@ -35,6 +39,9 @@ public class MemberResource {
     @Timed
     @POST
     public Response createMember(@Valid final MemberForm memberForm){
+        class Self{};
+        LOG.info("Method={} called with {}", methodName(Self.class), memberForm);
+
         Member member = memberService.createMember(memberForm);
         return Response.ok(member).build();
     }
@@ -42,6 +49,9 @@ public class MemberResource {
     @Timed
     @GET
     public Response getMembers(){
+        class Self{};
+        LOG.info("Method={} called", methodName(Self.class));
+
         List<Member> members = memberService.listMembers();
         return Response.ok(members).build();
     }
@@ -50,6 +60,9 @@ public class MemberResource {
     @GET
     @Path("/{id}")
     public Response getMember(@PathParam("id")IntParam memberId){
+        class Self{};
+        LOG.info("Method={} called with memberId={}", methodName(Self.class), memberId);
+
         Member members = memberService.getMember(memberId.get());
         return Response.ok(members).build();
     }
@@ -58,7 +71,14 @@ public class MemberResource {
     @PUT
     @Path("/{id}")
     public Response updateMember(@PathParam("id") IntParam memberId, @Valid final MemberForm memberForm){
+        class Self{};
+        LOG.info("Method={} called with memberId={} {}", methodName(Self.class), memberId, memberForm);
+
         Member members = memberService.updateMember(memberId.get(), memberForm);
         return Response.ok(members).build();
+    }
+
+    private String methodName(Class self){
+        return self.getClass().getEnclosingMethod().getName();
     }
 }

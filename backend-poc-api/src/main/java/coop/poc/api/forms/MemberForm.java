@@ -8,9 +8,6 @@ import javax.validation.constraints.NotNull;
 
 public class MemberForm {
 
-    @JsonProperty
-    private String name;
-
     @NotNull
     @Length(min=5, max=8)
     @JsonProperty
@@ -30,7 +27,6 @@ public class MemberForm {
     }
 
     public MemberForm(MemberFormBuilder builder){
-        this.name = builder.name;
         this.postcode = builder.postcode;
         this.firstName = builder.firstName;
         this.lastName = builder.lastName;
@@ -39,10 +35,6 @@ public class MemberForm {
 
     public String getPostcode() {
         return postcode;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public String getLastName() {
@@ -73,16 +65,14 @@ public class MemberForm {
     }
 
     @JsonProperty
-    private void setName(String name) {
-        this.name = name;
-    }
-
-    @JsonProperty
     private void setPostcode(String postcode) {
         this.postcode = postcode;
     }
 
-
+    @Override
+    public String toString(){
+        return String.format("firstName=%s lastName=%s postCode=%s favouriteStore=%s");
+    }
 
     public class MemberFormBuilder {
 
@@ -91,11 +81,6 @@ public class MemberForm {
         private String firstName;
         private String lastName;
         private int favouriteStore;
-
-        public MemberFormBuilder withName(final String name){
-            this.name = name;
-            return this;
-        }
 
         public MemberFormBuilder withPostcode(final String postcode){
             this.postcode = postcode;
