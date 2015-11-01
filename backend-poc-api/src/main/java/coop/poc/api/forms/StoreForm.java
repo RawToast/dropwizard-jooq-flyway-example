@@ -1,8 +1,6 @@
 package coop.poc.api.forms;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.sun.javafx.binding.StringFormatter;
-import coop.poc.api.stores.Store;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
@@ -47,7 +45,7 @@ public class StoreForm {
     @Override
     public String toString()
     {
-        return StringFormatter.format("type=%s name=%s postcode=%s", StoreForm.class, name, postcode).getValue();
+        return String.format("type={} name={} postcode={}", StoreForm.class, name, postcode);
     }
 
 
