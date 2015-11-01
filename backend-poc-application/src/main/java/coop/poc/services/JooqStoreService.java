@@ -1,69 +1,55 @@
 package coop.poc.services;
 
 import coop.poc.api.forms.StoreForm;
-import coop.poc.api.stores.Member;
 import coop.poc.api.stores.Store;
+import coop.poc.client.api.StoresDatastore;
+import coop.poc.client.exception.PersistenceFailureException;
 import coop.poc.tables.records.StoresRecord;
-import org.jooq.DSLContext;
 import org.jooq.Result;
-import org.jooq.SelectConditionStep;
-import org.jooq.UpdateConditionStep;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.ws.rs.InternalServerErrorException;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static coop.poc.Tables.STORES;
-import static coop.poc.api.stores.Store.StoreBuilder;
-import static coop.poc.util.SingletonCollector.singletonCollector;
+import static coop.poc.services.util.Functions.CONVERT_STORE;
+import static coop.poc.services.util.Functions.CONVERT_STORES;
 
 public class JooqStoreService implements StoreService {
 
-    private DSLContext jooq;
+    private static final Logger LOG = LoggerFactory.getLogger(JooqStoreService.class);
+    private final StoresDatastore datastore;
 
-    private static final Function<StoresRecord, Store> CONVERT_STORES =
-            storesRecord -> new StoreBuilder().withName(storesRecord.getName())
-                                              .withStoreId(storesRecord.getStoreId())
-                                              .withPostcode(storesRecord.getPostcode())
-                                              .createStore();
 
-    private Function<StoresRecord, Store> CONVERT_STORE = storesRecord -> new StoreBuilder().withName(storesRecord.getName())
-                                                                                            .withStoreId(storesRecord.getStoreId())
-                                                                                            .withPostcode(storesRecord.getPostcode())
-                                                                                            .createStore();
-
-    //private Function<StoreForm, StoresRecord> CREATE_STORE_RECORD = storeForm -> new StoresRecord(DSL.val(STORES.s)).
-
-    public JooqStoreService(DSLContext jooqContext) {
-        this.jooq = jooqContext;
+    public JooqStoreService(StoresDatastore storesDatastore) {
+        this.datastore = storesDatastore;
     }
 
     @Override
     public void persistStore(StoreForm store) {
+        LOG.info("Creating new store record with {}", store);
 
-        StoresRecord record = new StoresRecord();
-        record.setName(store.getName());
-        record.setPostcode(store.getPostcode());
-        jooq.executeInsert(record);
-
+        try {
+            datastore.createStore(store.getName(), store.getPostcode());
+        } catch (PersistenceFailureException e) {
+            throw new InternalServerErrorException(e.getMessage(), e);
+        }
     }
 
     @Override
     public Store fetchStore(int id) {
-        return jooq.selectFrom(STORES)
-                   .where(STORES.STORE_ID.eq(id))
-                   .fetch()
-                   .stream()
-                   .map(CONVERT_STORE).collect(singletonCollector());
+
+        StoresRecord storeRecord = datastore.fetchStore(id);
+
+        return CONVERT_STORE.apply(storeRecord);
 
     }
 
     @Override
     public List<Store> findStore(String storeName) {
-        //Result<StoresRecord> storesRecords = context.selectFrom(STORES)
-        SelectConditionStep<StoresRecord> storeRecords = jooq.selectFrom(STORES)
-                                                             .where(STORES.NAME.contains(storeName));
-        Result<StoresRecord> records = storeRecords.fetch();
+
+        Result<StoresRecord> records = datastore.fetchStoresWithNameContaining(storeName);
 
         return records
                 .stream()
@@ -77,13 +63,13 @@ public class JooqStoreService implements StoreService {
         //    .set(MEMBERS.FAVOURITE_STORE, (Integer) null)
         //    .where(MEMBERS.FAVOURITE_STORE.eq(id));
 
-        jooq.deleteFrom(STORES).where(STORES.STORE_ID.eq(id)).execute();
+        datastore.deleteStore(id);
     }
 
     @Override
     public List<Store> listStores() {
 
-        Result<StoresRecord> storesRecords = jooq.selectFrom(STORES).fetch();
+        Result<StoresRecord> storesRecords = datastore.fetchStores();
 
         List<Store> stores = storesRecords.stream()
                                           .map(CONVERT_STORES)
@@ -94,24 +80,15 @@ public class JooqStoreService implements StoreService {
 
     @Override
     public Store update(int id, StoreForm storeForm) {
+        LOG.info("Updating store with id {} with {}", storeForm);
 
+        try {
+            datastore.updateStore(id, storeForm.getName(), storeForm.getPostcode());
+        } catch (PersistenceFailureException e) {
+            throw new InternalServerErrorException(e.getMessage(), e);
+        }
 
-        UpdateConditionStep<StoresRecord> where = jooq.update(STORES)
-                                                      .set(STORES.NAME, storeForm.getName())
-                                                      .set(STORES.POSTCODE, storeForm.getPostcode())
-                                                      .where(STORES.STORE_ID.eq(id));
-
-        System.out.print(where.getSQL());
-        where.execute();
-
-        return new Store.StoreBuilder().withStoreId(id)
-                                       .withName(storeForm.getName())
-                                       .withPostcode(storeForm.getPostcode())
-                                       .createStore();
+        return fetchStore(id);
     }
 
-    @Override
-    public List<Member> getLocalMembers(int id) {
-        return null;
-    }
 }

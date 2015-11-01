@@ -2,6 +2,10 @@ package coop.poc;
 
 import com.bendb.dropwizard.jooq.JooqBundle;
 import com.bendb.dropwizard.jooq.JooqFactory;
+import coop.poc.client.api.MembersDatastore;
+import coop.poc.client.api.StoresDatastore;
+import coop.poc.client.jooq.JooqMembersDatastore;
+import coop.poc.client.jooq.JooqStoresDatastore;
 import coop.poc.health.TemplateHealthCheck;
 import coop.poc.resources.MemberResource;
 import coop.poc.resources.StoreResource;
@@ -52,10 +56,13 @@ public class PocApplication extends Application<PocConfiguration> {
         DSLContext using = DSL.using(configuration.getDataSourceFactory().getUrl(), configuration.getDataSourceFactory().getUser(),
                                      configuration.getDataSourceFactory().getPassword());
 
-        final StoreService storeService = new JooqStoreService(using);
+        final MembersDatastore membersDatastore = new JooqMembersDatastore(using);
+        final StoresDatastore storesDatastore = new JooqStoresDatastore(using);
+
+        final StoreService storeService = new JooqStoreService(storesDatastore);
         final StoreResource storeResource = new StoreResource(storeService);
 
-        final MemberService memberService = new JooqMemberService(using);
+        final MemberService memberService = new JooqMemberService(membersDatastore, storesDatastore);
         final MemberResource memberResource = new MemberResource(memberService);
 
         environment.jersey().register(memberResource);

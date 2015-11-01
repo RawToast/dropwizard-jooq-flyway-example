@@ -23,6 +23,4 @@ public interface StoreService {
     List<Store> listStores();
 
     Store update(int id, StoreForm store);
-
-    List<Member> getLocalMembers(int id);
 }

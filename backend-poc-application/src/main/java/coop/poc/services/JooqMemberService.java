@@ -3,24 +3,28 @@ package coop.poc.services;
 import coop.poc.api.forms.MemberForm;
 import coop.poc.api.stores.Member;
 import coop.poc.api.stores.Store;
+import coop.poc.client.api.MembersDatastore;
+import coop.poc.client.api.StoresDatastore;
+import coop.poc.client.exception.PersistenceFailureException;
 import coop.poc.tables.records.MembersRecord;
 import coop.poc.tables.records.StoresRecord;
-import org.jooq.DSLContext;
+import org.jooq.Result;
 
+import javax.ws.rs.InternalServerErrorException;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static coop.poc.tables.Members.MEMBERS;
-import static coop.poc.tables.Stores.STORES;
-import static coop.poc.util.SingletonCollector.singletonCollector;
+import static coop.poc.services.util.Functions.CONVERT_STORE;
 
 public class JooqMemberService implements MemberService {
 
-    final private DSLContext jooqContext;
+    final private MembersDatastore membersDatastore;
+    final private StoresDatastore storesDatastore;
 
-    public JooqMemberService(final DSLContext jooqContext) {
-        this.jooqContext = jooqContext;
+    public JooqMemberService(final MembersDatastore membersDatastore, final StoresDatastore storesDatastore) {
+        this.membersDatastore = membersDatastore;
+        this.storesDatastore = storesDatastore;
     }
 
     private Function<MembersRecord, Member> CONVERT_MEMBER =
@@ -36,17 +40,14 @@ public class JooqMemberService implements MemberService {
                                              .value4(memberForm.getPostcode())
                                              .value6(memberForm.getFavouriteStore());
 
-    private Function<StoresRecord, Store> CONVERT_STORE = storesRecord -> new Store.StoreBuilder().withName(storesRecord.getName())
-                                                                                                  .withStoreId(storesRecord.getStoreId())
-                                                                                                  .withPostcode(storesRecord.getPostcode())
-                                                                                                  .createStore();
-
     @Override
     public Member createMember(MemberForm memberForm) {
         MembersRecord member = CREATE_MEMBER.apply(memberForm);
-        member.store();
-
-        System.out.println("Member ID " + member.getMemberId());
+        try {
+            membersDatastore.createMember(member);
+        } catch (PersistenceFailureException e) {
+            throw new InternalServerErrorException(e.getMessage(), e);
+        }
 
         return CONVERT_MEMBER.apply(member);
     }
@@ -58,35 +59,26 @@ public class JooqMemberService implements MemberService {
 
     @Override
     public List<Member> listMembers() {
-        return jooqContext.selectFrom(MEMBERS)
-                          .fetch()
-                          .stream()
-                          .map(CONVERT_MEMBER)
-                          .collect(Collectors.toList());
+        Result<MembersRecord> membersRecords = membersDatastore.fetchMembers();
+
+        return membersRecords.stream()
+                             .map(CONVERT_MEMBER)
+                             .collect(Collectors.toList());
     }
 
     @Override
     public Member getMember(int memberId) {
-        return jooqContext.selectFrom(MEMBERS)
-                          .where(MEMBERS.MEMBER_ID.eq(memberId))
-                          .fetch()
-                          .stream()
-                          .map(CONVERT_MEMBER)
-                          .collect(singletonCollector());
+        MembersRecord member = membersDatastore.fetchMember(memberId);
+
+        return CONVERT_MEMBER.apply(member);
     }
 
-    private Store getMembersFavouriteStore(int memberId){
-        MembersRecord membersRecord = jooqContext.selectFrom(MEMBERS)
-                                                 .where(MEMBERS.MEMBER_ID.eq(memberId))
-                                                 .fetch()
-                                                 .stream()
-                                                 .collect(singletonCollector());
+    private Store getMembersFavouriteStore(int memberId) {
+        MembersRecord membersRecord = membersDatastore.fetchMember(memberId);
+        StoresRecord storesRecord = storesDatastore.fetchStore(membersRecord.getFavouriteStore());
 
-        return jooqContext.selectFrom(STORES)
-                          .where(STORES.STORE_ID.eq(membersRecord.getFavouriteStore()))
-                          .fetch()
-                          .stream()
-                          .map(CONVERT_STORE)
-                          .collect(singletonCollector());
+        return CONVERT_STORE.apply(storesRecord);
     }
+
+
 }
