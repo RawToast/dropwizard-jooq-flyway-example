@@ -1,5 +1,7 @@
 # backend-poc
 
+Dropwizard backend proof of concept.
+
 Organizing Your Project
 =======================
 
