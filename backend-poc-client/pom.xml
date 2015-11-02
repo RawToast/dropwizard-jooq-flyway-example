@@ -87,10 +87,6 @@
                     <groupId>org.objenesis</groupId>
                 </exclusion>
                 <exclusion>
-                    <artifactId>assertj-core</artifactId>
-                    <groupId>org.assertj</groupId>
-                </exclusion>
-                <exclusion>
                     <artifactId>jersey-test-framework-provider-inmemory</artifactId>
                     <groupId>org.glassfish.jersey.test-framework.providers</groupId>
                 </exclusion>
@@ -101,12 +97,6 @@
             <artifactId>junit</artifactId>
             <version>4.12</version>
             <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <artifactId>hamcrest-core</artifactId>
-                    <groupId>org.hamcrest</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
     </dependencies>
 </project>
