@@ -75,9 +75,16 @@ public class JooqMemberService implements MemberService {
 
     private Store getMembersFavouriteStore(int memberId) {
         MembersRecord membersRecord = membersDatastore.fetchMember(memberId);
+
+        //Optional??
         StoresRecord storesRecord = storesDatastore.fetchStore(membersRecord.getFavouriteStore());
 
+        if (storesRecord == null) {
+            // Maybe optional
+            return null;
+        }
         return CONVERT_STORE.apply(storesRecord);
+
     }
 
 
