@@ -96,6 +96,6 @@ public class StoreResource {
     }
 
     private String methodName(Class self){
-        return self.getClass().getEnclosingMethod().getName();
+        return self.getEnclosingMethod().getName();
     }
 }
