@@ -71,7 +71,7 @@
             <database>
               <name>org.jooq.util.postgres.PostgresDatabase</name>
               <includes>.*</includes>
-              <inputSchema>coopjooqpoc</inputSchema>
+              <inputSchema>poc</inputSchema>
               <customTypes>
                 <customType>
                   <name>DateTime</name>
