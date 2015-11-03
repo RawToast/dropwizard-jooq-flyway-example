@@ -7,8 +7,42 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>backend-poc-client</artifactId>
+
+    <properties>
+        <db.url>jdbc:postgresql://localhost:5432/poc</db.url>
+        <db.username>flyway</db.username>
+        <!-- Should be an environment variable! -->
+        <db.password>flyway</db.password>
+    </properties>
+
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>3.2.1</version>
+                <configuration>
+                    <url>${db.url}</url>
+                    <user>${db.username}</user>
+                    <password>${db.password}</password>
+                    <schemas>
+                        <schema>poc</schema>
+                    </schemas>
+                    <locations>
+                        <location>filesystem:src/main/resources/db/migration</location>
+                    </locations>
+                </configuration>
+                <!-- Note that we're executing the Flyway plugin in the "generate-sources" phase -->
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>migrate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.jooq</groupId>
                 <artifactId>jooq-codegen-maven</artifactId>
@@ -35,9 +69,9 @@
                 <configuration>
                     <jdbc>
                         <driver>org.postgresql.Driver</driver>
-                        <url>jdbc:postgresql://localhost:5432/pocdb</url>
-                        <user>pocuser</user>
-                        <password>pocpassword</password>
+                        <url>${db.url}</url>
+                        <user>${db.username}</user>
+                        <password>${db.password}</password>
                     </jdbc>
                     <generator>
                         <name>org.jooq.util.DefaultGenerator</name>
@@ -47,7 +81,7 @@
                         <database>
                             <name>org.jooq.util.postgres.PostgresDatabase</name>
                             <includes>.*</includes>
-                            <inputSchema>coopjooqpoc</inputSchema>
+                            <inputSchema>poc</inputSchema>
                             <customTypes>
                                 <customType>
                                     <name>DateTime</name>

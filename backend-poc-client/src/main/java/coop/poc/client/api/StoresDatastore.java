@@ -4,8 +4,6 @@ import coop.poc.client.exception.PersistenceFailureException;
 import coop.poc.tables.records.StoresRecord;
 import org.jooq.Result;
 
-import java.io.IOException;
-
 public interface StoresDatastore {
 
     void createStore(String storeName, String postcode) throws PersistenceFailureException;
