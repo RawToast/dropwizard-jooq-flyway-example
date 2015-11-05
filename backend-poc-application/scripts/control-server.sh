@@ -21,7 +21,7 @@ server $CONFIG_FILE > logs/stdout.${ARTIFACT}.log 2>&1 </dev/null &
 ShutDown()
 {
   echo "Shutting down"
-  pkill -f java -jar ${ARTIFACT}*SNAPSHOT.jar
+  pkill -f ${ARTIFACT}*SNAPSHOT.jar
   _retval=$?
   if [ ${_retval} -ne 0 ] ; then
      echo "Failed to send kill signal!"
