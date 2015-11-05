@@ -1,16 +1,14 @@
-package coop.poc
-
-import junit.framework.Test
+package selenium
 
 /**
- * Created by jim on 05/11/2015.
+ * Created by JM on 05/11/2015.
  */
 
 
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.firefox.FirefoxDriver
 
-class TestBackend extends GroovyTestCase{
+class TestBackendIT extends GroovyTestCase{
 
     WebDriver webDriver = new FirefoxDriver();
 
