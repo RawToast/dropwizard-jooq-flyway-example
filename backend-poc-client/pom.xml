@@ -11,9 +11,5 @@
 
     <artifactId>backend-poc-client</artifactId>
     <packaging>pom</packaging>
-    <modules>
-        <module>../backend-poc-test</module>
-    </modules>
-
 
 </project>
