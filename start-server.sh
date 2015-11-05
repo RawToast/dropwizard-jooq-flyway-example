@@ -1,0 +1,1 @@
+mvn initialize -Pstart-dropwizard

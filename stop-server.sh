@@ -1,0 +1,1 @@
+mvn initialize -Pstop-dropwizard
