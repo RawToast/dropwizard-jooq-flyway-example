@@ -28,7 +28,7 @@
               <transformers>
                 <transformer />
                 <transformer>
-                  <mainClass>coop.poc.TrainingApplication</mainClass>
+                  <mainClass>coop.poc.PocApplication</mainClass>
                 </transformer>
               </transformers>
             </configuration>
