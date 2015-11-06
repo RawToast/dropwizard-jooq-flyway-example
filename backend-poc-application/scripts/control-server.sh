@@ -12,9 +12,9 @@ exit
 fi
 
 echo "Starting Dropwizard!"
+echo "Configfile $CONFIG_FILE"
 mkdir -p logs
-nohup java -jar target/${ARTIFACT}*SNAPSHOT.jar \
-server $CONFIG_FILE > logs/stdout.${ARTIFACT}.log 2>&1 </dev/null &
+nohup java -jar target/${ARTIFACT}*SNAPSHOT.jar server $CONFIG_FILE > logs/stdout.${ARTIFACT}.log 2>&1 </dev/null &
     echo "Service Started"
 }
  
