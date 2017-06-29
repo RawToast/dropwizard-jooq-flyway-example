@@ -1,10 +1,7 @@
-# backend-poc
-
-Dropwizard backend proof of concept!!!
+# dropwizard-jooq-flyway-example
 
 
-Postgres Setup
-==============
+## Postgres Setup
 
 CREATE USER pocuser WITH PASSWORD 'pocpassword';
 CREATE DATABASE pocdb;
@@ -31,10 +28,7 @@ GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA coopjooqpoc to pocuser;
 INSERT INTO coopjooqpoc.stores(name, postcode)                                                                             VALUES                                                                                                                             ('Leeds - East', 'LS9 8AX'),                                                                                                       ('Leeds - Centre', 'LS1 1TW'),                                                                                                     ('Manchester - Centre', 'M1 1AB');
 
 
-
-
-Organizing Your Project
-=======================
+## Organizing Your Project
 
 In general, we recommend you separate your projects into three Maven modules: 
 
